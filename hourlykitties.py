@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands, tasks
-from botfunctions import envGet, getKitty
-from channelIDS import CHANNEL_IDS
+from bot_functions import envGet, getKitty
+from channel_ids import CHANNEL_IDS
 
 BOT_TOKEN = envGet("BOT_TOKEN", False)
 CAT_KEY = envGet("CATKEY", False)
