@@ -41,7 +41,11 @@ async def sendRandomKitty():
         url = getKitty(CAT_KEY)
         embed = discord.Embed(title="⁺₊ cat pic of the hour! ⁺₊", color=0x36393e)
         embed.set_image(url=url)
-        await channel.send(embed=embed)
-        print(f"Sent cat to channel {channel_id}.")
+        try:
+            await channel.send(embed=embed)
+            print(f"Sent cat to channel {channel_id}.")
+        except:
+            print(f"Failed to send cat to channel {channel_id}.")
+            continue
 
 bot.run(BOT_TOKEN)
