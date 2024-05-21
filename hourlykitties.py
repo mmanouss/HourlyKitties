@@ -1,9 +1,9 @@
 import discord
 from discord.ext import commands, tasks
 from botfunctions import envGet, getKitty
+from channelIDS import CHANNEL_IDS
 
 BOT_TOKEN = envGet("BOT_TOKEN", False)
-CHANNEL_ID = int(envGet("CHANNEL_ID", False))
 CAT_KEY = envGet("CATKEY", False)
 
 bot = commands.Bot()
@@ -32,10 +32,16 @@ async def sendRandomKittyHourly():
     await sendRandomKitty()
 
 async def sendRandomKitty():
-    channel = bot.get_channel(CHANNEL_ID)
-    url = getKitty(CAT_KEY)
-    embed = discord.Embed(title="⁺₊ cat pic of the hour! ⁺₊", color=0x36393e)
-    embed.set_image(url=url)
-    await channel.send(embed=embed)
+    for channel_id in CHANNEL_IDS:
+        channel = bot.get_channel(channel_id)
+        if channel is None:
+            print(f"Channel {channel_id} not found.")
+            continue
+        
+        url = getKitty(CAT_KEY)
+        embed = discord.Embed(title="⁺₊ cat pic of the hour! ⁺₊", color=0x36393e)
+        embed.set_image(url=url)
+        await channel.send(embed=embed)
+        print(f"Sent cat to channel {channel_id}.")
 
 bot.run(BOT_TOKEN)
